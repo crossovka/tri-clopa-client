@@ -1,0 +1,16 @@
+@use '@/sass/base/mixins' as *;
+@use '@/sass/base/typography' as *;
+@use '@/sass/roots/roots.variables' as *;
+// // @use '@/sass/roots/roots.tokens' as *;
+
+.article {
+
+	.image {
+		padding-bottom: 56.25%;
+		margin-bottom: rem(25);
+	}
+
+	.heading {}
+
+	.content {}
+}

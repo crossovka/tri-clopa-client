@@ -1,0 +1,27 @@
+@use '@/sass/roots/roots.variables' as *;
+// // @use '@/sass/roots/roots.tokens' as *;
+
+.info {
+	padding: calc(var(--main-section-paddings) * 0.6) 0;
+	margin-bottom: calc(var(--main-section-paddings) * 0.9);
+	background-color: var(--tertiary-color);
+
+	ul {
+		display: flex;
+		// align-items: center;
+		justify-content: space-evenly;
+
+		flex-wrap: wrap;
+		// gap: 40px;
+
+		li {
+			flex: 1 1 33.3333333333%;
+			padding: 5px 5px;
+			line-height: 1.4;
+
+			text-align: center;
+			color: var(--accent-color);
+			text-decoration: underline;
+		}
+	}
+}

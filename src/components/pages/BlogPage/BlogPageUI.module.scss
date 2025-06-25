@@ -1,0 +1,52 @@
+@use '@/sass/base/mixins' as *;
+@use '@/sass/base/typography' as *;
+@use '@/sass/roots/roots.variables' as *;
+// // @use '@/sass/roots/roots.tokens' as *;
+
+.blog {
+	padding-bottom: calc(var(--main-section-paddings) * 1);
+
+	&__list {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+		gap: 1.5rem;
+		margin-top: 2rem;
+	}
+
+	a {
+		display: block;
+		padding: 1rem;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		text-decoration: none;
+		color: inherit;
+		transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+		&:hover,
+		&:focus-visible {
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			transform: translateY(-4px);
+		}
+
+		h2 {
+			font-size: rem(30);
+
+			// Добавляем обрезку текста с многоточием
+			display: -webkit-box;
+			-webkit-line-clamp: 5; // ограничение в 3 строки
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+
+	.imageWrapper {
+		padding-bottom: 56.25%;
+		border-radius: 6px;
+		overflow: hidden;
+
+		&:not(:last-child) {
+			margin-bottom: rem(20);
+		}
+	}
+}

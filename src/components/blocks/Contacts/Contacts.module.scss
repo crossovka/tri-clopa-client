@@ -1,0 +1,61 @@
+@use '@/sass/base/mixins' as *;
+@use '@/sass/roots/roots.variables' as *;
+// @use '@/sass/roots/roots.tokens' as *;
+
+.contacts {
+	padding: calc(var(--main-section-paddings) * 0.6) 0;
+
+	// .contacts__container
+	&__container {
+		display: flex;
+		flex-direction: column;
+	}
+
+	// .contacts__heading
+	&__heading {
+		&:not(:last-child) {
+			margin-bottom: em(40, 40);
+		}
+	}
+
+	// .contacts__wrap
+	&__wrap {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		gap: 30px;
+
+		@media (max-width: $mobile) {
+			flex-direction: column;
+		}
+	}
+
+	// .contacts__contacts-form
+	&__contacts-form {
+		flex: 1 1 auto;
+		background-color: var(--tertiary-color);
+		border-radius: 20px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	// .contacts__image
+	&__image {
+		position: relative;
+
+		@media (min-width: $mobile) {
+			flex: 0 0 50%;
+			min-height: 300px;
+			max-height: 700px;
+			height: 100%;
+		}
+
+		@media (max-width: $mobile) {
+			// padding-bottom: 56.25%; 16/9
+			padding-bottom: 45.25%;
+			width: 100%;
+		}
+	}
+}

@@ -1,0 +1,20 @@
+@use '@/sass/base/mixins' as *;
+
+.heading {
+	&:not(:last-child) {
+		margin-top: em(35, 72);
+		margin-bottom: em(35, 72);
+	}
+
+	font-weight: var(--bold);
+
+	// .heading--centered
+	&--centered {
+		text-align: center;
+	}
+
+	// .heading--capital
+	&--capital {
+		text-transform: uppercase;
+	}
+}

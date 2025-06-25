@@ -1,0 +1,232 @@
+@use '@/sass/roots/roots.variables' as *;
+@use '@/sass/base/mixins' as *;
+
+// Заголовки с адаптивным font-size
+// h1,
+.h1 {
+	font-size: rem(72);
+
+	&:not(:last-child) {
+		margin-bottom: em(24, 72);
+	}
+
+	@media (max-width: $pc) {
+		font-size: rem(42);
+	}
+
+	@media (max-width: $tablet) {
+		font-size: rem(36);
+	}
+
+	@media (max-width: $mobile) {
+		font-size: rem(32);
+	}
+
+	@media (max-width: $mobileSmall) {
+		font-size: rem(28);
+	}
+}
+
+.h2 {
+	font-size: rem(40);
+
+	&:not(:last-child) {
+		margin-bottom: em(20, 72);
+	}
+
+	@media (max-width: $pc) {
+		font-size: rem(36);
+	}
+
+	@media (max-width: $tablet) {
+		font-size: rem(32);
+	}
+
+	@media (max-width: $mobile) {
+		font-size: rem(28);
+	}
+
+	@media (max-width: $mobileSmall) {
+		font-size: rem(24);
+	}
+}
+
+.h3 {
+	font-size: rem(32);
+
+	&:not(:last-child) {
+		margin-bottom: em(18, 72);
+	}
+
+	@media (max-width: $pc) {
+		font-size: rem(28);
+	}
+
+	@media (max-width: $tablet) {
+		font-size: rem(24);
+	}
+
+	@media (max-width: $mobile) {
+		font-size: rem(20);
+	}
+
+	@media (max-width: $mobileSmall) {
+		font-size: rem(18);
+	}
+}
+
+.h4 {
+	font-size: rem(28);
+
+	&:not(:last-child) {
+		margin-bottom: em(16, 72);
+	}
+
+	@media (max-width: $pc) {
+		font-size: rem(24);
+	}
+
+	@media (max-width: $tablet) {
+		font-size: rem(22);
+	}
+
+	@media (max-width: $mobile) {
+		font-size: rem(20);
+	}
+
+	@media (max-width: $mobileSmall) {
+		font-size: rem(18);
+	}
+}
+
+.h5 {
+	font-size: rem(24);
+
+	&:not(:last-child) {
+		margin-bottom: em(14, 72);
+	}
+
+	@media (max-width: $pc) {
+		font-size: rem(22);
+	}
+
+	@media (max-width: $tablet) {
+		font-size: rem(20);
+	}
+
+	@media (max-width: $mobile) {
+		font-size: rem(18);
+	}
+
+	// @media (max-width: $mobileSmall) {
+	//   font-size: rem(16);
+	// }
+}
+
+.h6 {
+	font-size: rem(20);
+
+	&:not(:last-child) {
+		margin-bottom: em(12, 72);
+	}
+
+	@media (max-width: $pc) {
+		font-size: rem(18);
+	}
+
+	@media (max-width: $tablet) {
+		font-size: rem(16);
+	}
+
+	// @media (max-width: $mobile) {
+	//   font-size: rem(14);
+	// }
+
+	// @media (max-width: $mobileSmall) {
+	//   font-size: rem(12);
+	// }
+}
+
+// p,
+.p {
+	font-size: rem(24); // Размер для p на больших экранах
+	line-height: 1.5;
+
+	@media (max-width: $pc) {
+		font-size: rem(18);
+	}
+
+	@media (max-width: $tablet) {
+		font-size: rem(16);
+	}
+}
+
+.link {
+	transition: color 0.3s ease;
+
+	@media (any-hover: hover) {
+		&:hover {
+			color: var(--hover-font-color)
+		}
+	}
+}
+
+.content-field {
+
+	h1 {
+		@extend .h1;
+	}
+
+	h2 {
+		@extend .h2;
+	}
+
+	h3 {
+		@extend .h3;
+	}
+
+	h4 {
+		@extend .h4;
+	}
+
+	h5 {
+		@extend .h5;
+	}
+
+	h6 {
+		@extend .h6;
+	}
+
+	b,
+	strong {
+		color: var(--accent-color)
+	}
+
+	p {
+		@extend .p;
+	}
+
+	ul {
+
+		li {
+			@extend .p;
+			display: flex;
+			gap: 12px;
+
+			&:not(:last-child) {
+				margin-bottom: rem(10);
+			}
+
+			&::before {
+				content: '';
+				flex: 0 0 auto;
+				display: inline-block;
+				transform: translateY(50%);
+				width: 12px;
+				height: 12px;
+				border-radius: 50%;
+				background: var(--accent-color);
+			}
+		}
+	}
+}

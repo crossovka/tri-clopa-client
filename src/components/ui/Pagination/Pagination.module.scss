@@ -1,0 +1,32 @@
+@use '@/sass/base/mixins' as *;
+@use '@/sass/base/typography' as *;
+@use '@/sass/roots/roots.variables' as *;
+// // @use '@/sass/roots/roots.tokens' as *;
+
+.pagination {
+	display: flex;
+	gap: 10px;
+	margin: 20px 0;
+	justify-content: flex-start;
+
+	a {
+		padding: 6px 12px;
+
+		border-radius: 4px;
+
+		font-size: rem(18);
+		font-weight: var(--semi-bold);
+		color: #333;
+		text-decoration: none;
+
+		&:hover {
+			background-color: #e4e2e2;
+		}
+	}
+
+	.active {
+		background-color: var(--btn-color);
+		color: white;
+		pointer-events: none;
+	}
+}

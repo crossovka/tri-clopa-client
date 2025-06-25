@@ -1,0 +1,102 @@
+@use 'sass:math';
+@use './roots/roots.variables' as *;
+// @use './roots/roots.tokens';
+@use './base/mixins' as *;
+
+// Базовые стили
+@use 'base/null';
+@use 'base/typography';
+@use 'base/base';
+
+@use 'components/Header';
+@use 'components/Footer';
+
+// forms
+@use 'components/forms/forms.scss';
+@use 'components/forms/auth-forms.scss';
+
+// pages
+
+/*
+(i) Стили будут применяться ко 
+всем классам содержащим *__container
+Например header__container, main__container и т.д.
+Снипет (HTML): cnt
+*/
+@if ($responsiveType==1) {
+	// Отзывчивая
+	[class*='__container'] {
+		@if ($maxWidthContainer>0) {
+			max-width: rem($maxWidthContainer);
+			box-sizing: content-box;
+			margin: 0 auto;
+		}
+
+		@if ($containerPadding>0) {
+			padding: 0 rem(math.div($containerPadding, 2));
+		}
+	}
+} @else {
+	// По брейк-поинтам
+}
+
+// * {
+// 	outline: 4px solid purple !important;
+// }
+
+// html {
+// @extend %smoothscroll;
+// scroll-behavior: smooth;
+// -webkit-overflow-scrolling: touch;
+// }
+
+body {
+	min-height: 100vh;
+
+	// Скролл заблокирован
+	&.lock {
+		overflow: hidden;
+		touch-action: none;
+		// VAR(--scrol-width)
+		padding-right: 8px;
+	}
+
+	// Сайт загружен
+	.loaded & {
+	}
+}
+
+.wrapper {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+
+	// Прижимаем footer
+	> main {
+		flex: 1 1 auto;
+
+		.page__breadcrumbs + section {
+			padding-top: 0px !important;
+		}
+
+		// Если первый дочерний блок внутри main НЕ hero, то
+		> *:first-child:not(.hero) {
+			// padding-top: calc(var(--main-section-paddings) * 2.9);
+			margin-top: calc(var(--main-section-paddings) * 2.9);
+		}
+	}
+
+	// Фикс для слайдеров
+	> * {
+		min-width: 0;
+	}
+}
+
+.fancybox__container {
+	max-width: 100%;
+}
+
+[data-fancybox] {
+	cursor: zoom-in;
+}

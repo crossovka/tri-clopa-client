@@ -1,0 +1,71 @@
+@use '@/sass/base/mixins' as *;
+@use '@/sass/base/typography' as *;
+@use '@/sass/roots/roots.variables' as *;
+// // @use '@/sass/roots/roots.tokens' as *;
+
+.trust {
+	padding: calc(var(--main-section-paddings) * 1) 0;
+
+	// .trust__heading
+	&__heading {
+		&:not(:last-child) {
+			margin-bottom: em(40, 40);
+		}
+	}
+
+	ul {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-auto-rows: minmax(min-content, max-content);
+		gap: 60px;
+
+		@media (max-width:$mobile) {
+			grid-template-columns: 1fr;
+			gap: 20px;
+		}
+
+		li {
+			display: flex;
+			align-items: center;
+			gap: 30px;
+
+			@media (max-width: $tablet) {
+				gap: 15px;
+				font-size: rem(15);
+			}
+
+			@media (max-width: $mobile) {
+				font-size: rem(10);
+			}
+
+
+			span:nth-child(1) {
+				font-weight: var(--bold);
+				color: var(--accent-color);
+				position: relative;
+				font-size: rem(125);
+
+				@media (max-width: $pc) {
+					font-size: rem(105);
+				}
+
+				@media (max-width: $tablet) {
+					font-size: rem(80);
+				}
+
+				@media (max-width: $mobile) {
+					font-size: rem(70);
+				}
+
+				// @media (max-width: $mobileSmall) {
+				// 	font-size: rem(40);
+				// }
+			}
+
+			span:nth-child(2) {
+				font-weight: var(--semi-bold);
+				@extend .h5;
+			}
+		}
+	}
+}

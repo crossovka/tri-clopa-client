@@ -1,0 +1,13 @@
+@use '@/sass/base/mixins' as *;
+@use '@/sass/base/typography' as *;
+@use '@/sass/roots/roots.variables' as *;
+// // @use '@/sass/roots/roots.tokens' as *;
+
+.imageBlock {
+	padding: calc(var(--main-section-paddings) * 0.6) 0;
+
+	// .imageBlock__image
+	&__image {
+		padding-bottom: 30%;
+	}
+}
