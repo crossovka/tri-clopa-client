@@ -33,6 +33,10 @@
 		align-items: center;
 		gap: 40px;
 
+		@media (max-width: $tablet) {
+			gap: 20px;
+		}
+
 		padding: 1.5rem rem(10) !important;
 
 		z-index: var(--ui-index-9);
@@ -271,7 +275,7 @@
 				font-size: rem(18);
 			}
 
-			@media (max-width: $mobileSmall) {
+			@media (max-width: em(580)) {
 				display: none;
 			}
 		}
