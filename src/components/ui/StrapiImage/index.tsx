@@ -11,13 +11,14 @@ interface StrapiImageProps {
 export function getStrapiMediaURL(path: string = ''): string {
 	if (!path) return ''
 
-	// Если путь уже полный URL, возвращаем как есть
 	if (path.startsWith('http://') || path.startsWith('https://')) {
 		return path
 	}
 
-	// Используем именно публичную переменную окружения
-	const strapiUrl = process.env.SERVER_URL || 'http://localhost:1337'
+	const strapiUrl = process.env.SERVER_URL
+	if (!strapiUrl) {
+		throw new Error('SERVER_URL не определён в переменных окружения')
+	}
 
 	return `${strapiUrl}${path.startsWith('/') ? '' : '/'}${path}`
 }

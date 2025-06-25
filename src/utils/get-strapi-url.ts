@@ -1,9 +1,15 @@
 export function getStrapiURL(path: string = ''): string {
-	const strapiUrl = process.env.SERVER_URL || 'http://localhost:1337'
-	return `${strapiUrl}/api/${path}` // Добавляем /api к пути
+	if (!process.env.SERVER_URL) {
+		throw new Error('SERVER_URL не определён в переменных окружения')
+	}
+	const strapiUrl = process.env.SERVER_URL
+	return `${strapiUrl}/api/${path}`
 }
 
 export function getStrapiMediaURL(path: string = ''): string {
-	const strapiUrl = process.env.SERVER_URL || 'http://localhost:1337'
-	return `${strapiUrl}${path}` // Просто добавляем путь к базе URL
+	if (!process.env.SERVER_URL) {
+		throw new Error('SERVER_URL не определён в переменных окружения')
+	}
+	const strapiUrl = process.env.SERVER_URL
+	return `${strapiUrl}${path}`
 }
