@@ -20,18 +20,31 @@ export async function generateMetadata(): Promise<Metadata> {
 			title: 'Главная страница',
 			description: 'Описание отсутствует',
 			robots: 'noindex, nofollow',
+			other: {
+				'yandex-verification': '31bfa17869e20b62',
+				'google-site-verification': 'zNSEaosP4SWTcCUKKp2N6ylG1QLC4Ync6x5jekoXdV0',
+			},
 		}
 	}
 
-	return {
+	const meta: Metadata = {
 		title: data.title || 'Главная страница',
 		description: data.description || 'Описание отсутствует',
 		robots: data.robots || 'index, follow',
-		other: data.keywords && data.keywords.trim() !== '' ? { keywords: data.keywords } : undefined,
 		alternates: {
 			canonical: data.canonicalUrl || 'https://localhost:3000/',
 		},
+		other: {
+			'yandex-verification': '31bfa17869e20b62',
+			'google-site-verification': 'zNSEaosP4SWTcCUKKp2N6ylG1QLC4Ync6x5jekoXdV0',
+		},
 	}
+
+	if (data.keywords && data.keywords.trim() !== '') {
+		meta.other!.keywords = data.keywords
+	}
+
+	return meta
 }
 
 export default async function HomeRoute() {
