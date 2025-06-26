@@ -207,23 +207,20 @@
 	}
 
 	ul {
+		position: relative;
+		// padding-left: 20px;
 
 		li {
-			@extend .p;
-			display: flex;
-			gap: 12px;
-
-			&:not(:last-child) {
-				margin-bottom: rem(10);
-			}
+			position: relative;
+			padding-left: 20px;
 
 			&::before {
 				content: '';
-				flex: 0 0 auto;
-				display: inline-block;
-				transform: translateY(50%);
-				width: 12px;
-				height: 12px;
+				position: absolute;
+				left: 0;
+				top: 0.3em;
+				width: 10px;
+				height: 10px;
 				border-radius: 50%;
 				background: var(--accent-color);
 			}
