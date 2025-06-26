@@ -157,6 +157,7 @@ export interface Page {
 	canonicalUrl: string
 	blocks?: Block[]
 }
+
 export interface PagesResponse {
 	data: Page[]
 	meta: {

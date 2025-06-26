@@ -1,0 +1,49 @@
+import { getCachedArticles, getPages } from '@/data/loaders'
+import { getBaseUrl } from '@/utils/getBaseUrl'
+
+import type { Article, Page } from '@/types/types'
+
+export async function GET() {
+	const baseUrl = getBaseUrl()
+	const now = new Date().toISOString()
+
+	const [pagesResponse, articlesResponse] = await Promise.all([
+		getPages(),
+		getCachedArticles(1, 200),
+	])
+
+	const pageUrls = (pagesResponse.data || []).map((page: Page) => {
+		return `  <url>
+    <loc>${baseUrl}/${page.slug}</loc>
+    <lastmod>${page.updatedAt || now}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>`
+	})
+
+	const articleUrls = (articlesResponse.data || []).map((article: Article) => {
+		return `  <url>
+    <loc>${baseUrl}/blog/${article.slug}</loc>
+    <lastmod>${article.updatedAt || now}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>`
+	})
+
+	const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${baseUrl}</loc>
+    <lastmod>${now}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+${[...pageUrls, ...articleUrls].join('\n')}
+</urlset>`
+
+	return new Response(xml, {
+		headers: {
+			'Content-Type': 'application/xml',
+		},
+	})
+}

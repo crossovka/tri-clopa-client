@@ -155,7 +155,7 @@ export const getCachedHomePage = cache(async function getCachedHomePage() {
 			next: { revalidate: 60 }, // Кэшировать 60 сек
 		})
 
-		console.log('Home page response:', response)
+		// console.log('Home page response:', response)
 
 		return response
 	} catch (error) {
@@ -209,7 +209,7 @@ export async function getPages() {
 			next: { revalidate: 60 },
 		})
 
-		console.log('[getPages] response:', response)
+		// console.log('[getPages] response:', response)
 
 		return {
 			data: response?.data || [],

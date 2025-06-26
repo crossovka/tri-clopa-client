@@ -67,7 +67,7 @@ export default async function DynamicPageRoute({ params }: { params: Promise<{ s
 export async function generateStaticParams() {
 	const response = (await getPages()) as PagesResponse
 
-	console.log('getPages response:', response)
+	// console.log('[generateStaticParams] getPages response:', JSON.stringify(response, null, 2))
 
 	return response.data.map((page) => ({
 		slug: page.slug,
