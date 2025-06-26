@@ -12,14 +12,18 @@
 		justify-content: space-evenly;
 
 		flex-wrap: wrap;
+
 		// gap: 40px;
+		@media (max-width:$mobile) {
+			flex-direction: column;
+		}
 
 		li {
-			flex: 1 1 33.3333333333%;
+			flex: 1 1 calc(33.3333333333% - 10px);
 			padding: 5px 5px;
-			line-height: 1.4;
 
 			text-align: center;
+			line-height: 1.4;
 			color: var(--accent-color);
 			text-decoration: underline;
 		}
