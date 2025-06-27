@@ -30,6 +30,7 @@ export async function POST(request: Request) {
 
 		return NextResponse.json({ success: true })
 	} catch (e) {
+		console.error('Ошибка сервера', e)
 		return NextResponse.json({ error: 'Ошибка сервера' }, { status: 500 })
 	}
 }
