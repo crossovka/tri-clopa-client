@@ -1,6 +1,6 @@
 'use client'
 
-import { contactsService } from '@/data/services/services'
+// import { contactsService } from '@/data/services/services'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -43,10 +43,16 @@ const ContactsForm: React.FC = () => {
 
 	const onSubmit: SubmitHandler<FormValues> = async (data) => {
 		try {
-			// Отправляем данные на сервер
-			await contactsService(data)
+			const response = await fetch('/api/contact', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(data),
+			})
 
-			// Отображаем уведомление об успехе
+			if (!response.ok) {
+				throw new Error('Ошибка при отправке формы')
+			}
+
 			toast.success('Сообщение отправлено! Скоро вам перезвонят', {
 				position: 'top-right',
 				autoClose: 3000,
@@ -56,7 +62,6 @@ const ContactsForm: React.FC = () => {
 				draggable: true,
 			})
 
-			// Очищаем форму
 			reset()
 		} catch (error) {
 			console.error('Ошибка при отправке формы:', error)
