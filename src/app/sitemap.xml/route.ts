@@ -30,6 +30,13 @@ export async function GET() {
   </url>`
 	})
 
+	const blogUrl = `  <url>
+    <loc>${baseUrl}/blog</loc>
+    <lastmod>${articlesResponse.data?.[0]?.updatedAt || now}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>`
+
 	const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
@@ -38,7 +45,7 @@ export async function GET() {
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-${[...pageUrls, ...articleUrls].join('\n')}
+${[blogUrl, ...pageUrls, ...articleUrls].join('\n')}
 </urlset>`
 
 	return new Response(xml, {
