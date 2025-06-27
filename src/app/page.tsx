@@ -13,7 +13,10 @@ async function loader() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-	const data = await getCachedHomePage()
+	const response = await getCachedHomePage()
+	const data = response?.data
+
+	console.log('generateMetadata - fetched data:', data)
 
 	if (!data) {
 		return {
