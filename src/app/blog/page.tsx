@@ -7,11 +7,12 @@ import { BlogPageUI } from '@/components/pages/BlogPage'
 import { Article } from '@/types/types'
 
 type Props = {
-	searchParams?: { page?: string }
+	searchParams?: Promise<{ page?: string }>
 }
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-	const page = Number(searchParams?.page || '1')
+	const params = await searchParams
+	const page = Number(params?.page || '1')
 
 	const baseTitle = 'Блог о дезинсекции — Советы от профессионалов'
 	const baseDescription =
@@ -54,7 +55,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 }
 
 export default async function BlogPage({ searchParams }: Props) {
-	const page = Number(searchParams?.page) || 1
+	const params = await searchParams
+	const page = Number(params?.page) || 1
 	const pageSize = 8
 
 	const res = await getCachedArticles(page, pageSize)
