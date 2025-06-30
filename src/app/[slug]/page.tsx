@@ -1,12 +1,14 @@
 import { getPageBySlug } from '@/data/loaders'
 import { getPages } from '@/data/loaders'
+import { getStrapiMediaURL } from '@/utils/get-strapi-url'
+import { getBaseUrl } from '@/utils/getBaseUrl'
 
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { BlockRenderer } from '@/components/BlockRenderer'
 
-import { Page, PagesResponse } from '@/types/types'
+import { Page, PagesResponse, StrapiSEO } from '@/types/types'
 
 async function loader(slug: string): Promise<Page> {
 	if (!slug) notFound()
@@ -22,26 +24,66 @@ async function loader(slug: string): Promise<Page> {
 export async function generateMetadata({
 	params,
 }: {
-	params: Promise<{ slug: string }>
+	params: { slug: string }
 }): Promise<Metadata> {
-	const { slug } = await params
+	const { slug } = params
 
 	try {
 		const data = await loader(slug)
+		const seo = data.seo as StrapiSEO | undefined
 
-		return {
-			title: data.title || 'Страница',
-			description: data.description || 'Описание отсутствует',
-			alternates: {
-				canonical: data.canonicalUrl || `https://localhost:3000/${slug}`,
-			},
-			robots: data.robots || 'index, follow',
-			other:
-				data.keywords && data.keywords.trim() !== ''
+		if (seo) {
+			const validOgTypes = ['website', 'article', 'profile', 'book'] as const
+			type ValidOgType = (typeof validOgTypes)[number] // 'website' | 'article' | 'profile' | 'book'
+
+			const ogType = seo.openGraph?.ogType
+
+			const openGraph =
+				seo.openGraph && ogType && validOgTypes.includes(ogType)
 					? {
-							keywords: data.keywords,
+							title: seo.openGraph.ogTitle,
+							description: seo.openGraph.ogDescription,
+							url: seo.openGraph.ogUrl,
+							type: ogType as ValidOgType, // здесь можно не кастить, TS сам понимает
+							images: seo.metaImage
+								? [
+										{
+											url: getStrapiMediaURL(seo.metaImage.url),
+											alt: seo.metaImage.alternativeText || '',
+											width: seo.metaImage.width ?? undefined,
+											height: seo.metaImage.height ?? undefined,
+											type: seo.metaImage.mime,
+										},
+									]
+								: undefined,
 						}
-					: undefined,
+					: undefined
+
+			return {
+				title: seo.metaTitle || data.title || 'Страница',
+				description: seo.metaDescription || 'Описание отсутствует',
+				robots: seo.metaRobots || 'index, follow',
+				alternates: {
+					canonical: seo.canonicalURL || `${getBaseUrl()}/${slug}`,
+				},
+				keywords: seo.keywords || undefined,
+				viewport: seo.metaViewport || 'width=device-width, initial-scale=1',
+				other: {
+					...(seo.structuredData ? { 'structured-data': seo.structuredData } : {}),
+				},
+				openGraph,
+			}
+		} else {
+			// fallback без SEO блока
+			return {
+				title: data.title || 'Страница',
+				description: 'Описание отсутствует',
+				robots: 'index, follow',
+				alternates: {
+					canonical: `${getBaseUrl()}/${slug}`,
+				},
+				keywords: undefined,
+			}
 		}
 	} catch {
 		return {

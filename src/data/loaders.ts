@@ -19,9 +19,9 @@ import { cache } from 'react'
 const homePageQuery = qs.stringify(
 	{
 		populate: {
-			// seo: {
-			// 	populate: '*', // подтянуть все поля SEO-плагина
-			// },
+			seo: {
+				populate: '*', // подтянуть все поля SEO-плагина
+			},
 			blocks: {
 				populate: '*', // базовое заполнение всех полей блоков
 				on: {
@@ -97,7 +97,6 @@ const homePageQuery = qs.stringify(
 	},
 	{ encode: false },
 )
-
 
 // function buildPopulate(fields: string[], depth: number): any {
 // 	if (depth === 0) return true
@@ -177,6 +176,9 @@ const pageBySlugQuery = (slug: string) =>
 			populate: {
 				blocks: {
 					populate: '*', // Загружаем все вложенные поля блоков
+				},
+				seo: {
+					populate: '*', // подтянуть все поля SEO-плагина
 				},
 			},
 		},
@@ -315,7 +317,11 @@ export const getArticleBySlug = cache(async function getArticleBySlug(slug: stri
 	const query = qs.stringify(
 		{
 			filters: { slug: slug },
-			populate: { image: true, blocks: { populate: '*' } }, // доп. поля, например, blocks
+			populate: {
+				image: true,
+				blocks: { populate: '*' },
+				seo: { populate: '*' }, // вот это подтянет все поля SEO
+			},
 		},
 		{ encode: false },
 	)
@@ -330,7 +336,7 @@ export const getArticleBySlug = cache(async function getArticleBySlug(slug: stri
 		})
 
 		console.log('Article response from Strapi:', JSON.stringify(response, null, 2))
-		
+
 		// в Strapi response.data — массив, берем первый элемент
 		return response.data[0]
 	} catch (error) {
