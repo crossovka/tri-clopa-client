@@ -8,7 +8,8 @@ const nextConfig: NextConfig = {
 		domains: [
 			'localhost',
 			prodStrapiDomain,
-			'wealthy-cabbage-5ef4edf469.strapiapp.com', // ← без https://
+			'wealthy-cabbage-5ef4edf469.strapiapp.com', // можно оставить
+			'wealthy-cabbage-5ef4edf469.media.strapiapp.com', // **добавь этот!**
 		],
 	},
 }
