@@ -24,9 +24,9 @@ async function loader(slug: string): Promise<Page> {
 export async function generateMetadata({
 	params,
 }: {
-	params: { slug: string }
+	params: Promise<{ slug: string }>
 }): Promise<Metadata> {
-	const { slug } = params
+	const { slug } = await params
 
 	try {
 		const data = await loader(slug)
@@ -94,16 +94,17 @@ export async function generateMetadata({
 	}
 }
 
-export default async function DynamicPageRoute({ params }: { params: Promise<{ slug: string }> }) {
-	const { slug } = await params
+type PageProps = { params: Promise<{ slug: string }> }
 
-	// // Логируем данные всех страниц при загрузке
-	// const allPagesResponse = await getPages()
-	// console.log('getPages response:', allPagesResponse)
-
+export default async function DynamicPageRoute(props: PageProps) {
+	const { slug } = await props.params
 	const data = await loader(slug)
 	return <BlockRenderer blocks={data?.blocks || []} />
 }
+
+// // Логируем данные всех страниц при загрузке
+// const allPagesResponse = await getPages()
+// console.log('getPages response:', allPagesResponse)
 
 // Заставляет Next.js сгенерировать статически все страницы (например, /o-nas, /nashi-magaziny) при билде или обновлении.
 export async function generateStaticParams() {

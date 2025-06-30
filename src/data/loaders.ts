@@ -221,8 +221,12 @@ export async function getPages() {
 			data: response?.data || [],
 			meta: response?.meta,
 		}
-	} catch (error) {
-		console.error('[getPages] Error:', error)
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.error('[getPages] Error:', error.message)
+		} else {
+			console.error('[getPages] Unknown error:', error)
+		}
 		return { data: [], meta: {} }
 	}
 }
@@ -307,8 +311,12 @@ export const getCachedArticles = cache(async function getCachedArticles(page = 1
 		})
 
 		return response
-	} catch (error) {
-		console.error('Ошибка при получении статей:', error)
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.error('Ошибка при получении статей:', error.message)
+		} else {
+			console.error('Неизвестная ошибка при получении статей:', error)
+		}
 		throw error
 	}
 })

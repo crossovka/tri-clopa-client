@@ -21,9 +21,9 @@ async function loader(slug: string): Promise<Article> {
 export async function generateMetadata({
 	params,
 }: {
-	params: { slug: string }
+	params: Promise<{ slug: string }>
 }): Promise<Metadata> {
-	const { slug } = params
+	const { slug } = await params
 
 	try {
 		const article = await loader(slug)
