@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 export default async function BlogPage({ searchParams }: Props) {
 	const params = await searchParams
 	const page = Number(params?.page) || 1
-	const pageSize = 6
+	const pageSize = 8
 
 	const res = await getCachedArticles(page, pageSize)
 	const articles: Article[] = res.data
