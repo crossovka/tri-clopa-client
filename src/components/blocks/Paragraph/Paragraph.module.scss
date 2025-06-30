@@ -4,10 +4,4 @@
 
 .paragraph {
 	margin-bottom: em(35, 24);
-
-	p {
-		&:not(:last-child) {
-			margin-bottom: em(35, 24);
-		}
-	}
 }

@@ -30,6 +30,7 @@ interface HeaderProps {
 }
 
 export function Header({ data, phoneNumber, whatsapp, telegramUsername }: HeaderProps) {
+	console.log(whatsapp)
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
 	const [isScrolled, setIsScrolled] = useState(false)
 	const pathname = usePathname()

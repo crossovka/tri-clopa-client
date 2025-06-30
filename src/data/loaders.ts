@@ -19,6 +19,9 @@ import { cache } from 'react'
 const homePageQuery = qs.stringify(
 	{
 		populate: {
+			// seo: {
+			// 	populate: '*', // подтянуть все поля SEO-плагина
+			// },
 			blocks: {
 				populate: '*', // базовое заполнение всех полей блоков
 				on: {
@@ -44,7 +47,7 @@ const homePageQuery = qs.stringify(
 						},
 					},
 					'blocks.heading': {
-						populate: '*', // у heading, скорее всего, только простые поля, но для консистентности
+						populate: '*',
 					},
 					'blocks.paragraph': {
 						populate: '*',
@@ -94,6 +97,7 @@ const homePageQuery = qs.stringify(
 	},
 	{ encode: false },
 )
+
 
 // function buildPopulate(fields: string[], depth: number): any {
 // 	if (depth === 0) return true
@@ -155,7 +159,7 @@ export const getCachedHomePage = cache(async function getCachedHomePage() {
 			next: { revalidate: 60 }, // Кэшировать 60 сек
 		})
 
-		// console.log('Home page response:', response)
+		console.log('Home page response:', response)
 
 		return response
 	} catch (error) {
@@ -254,7 +258,7 @@ export async function getGlobalSettings() {
 // Формируем query для site-settings — только нужные поля
 const siteSettingsQuery = qs.stringify(
 	{
-		fields: ['phoneNumber', 'email', 'inn', 'ogrnip', 'telegramUsername'],
+		fields: ['phoneNumber', 'email', 'inn', 'ogrnip', 'telegramUsername', 'whatsapp'],
 	},
 	{ encode: false },
 )
