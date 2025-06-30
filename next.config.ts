@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
 		domains: [
 			'localhost',
 			prodStrapiDomain,
-			'ethical-song-22416b651b.media.strapiapp.com', // ← без https://
+			'wealthy-cabbage-5ef4edf469.strapiapp.com', // ← без https://
 		],
 	},
 }
