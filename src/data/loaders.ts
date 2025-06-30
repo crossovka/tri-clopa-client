@@ -290,6 +290,7 @@ export const getCachedArticles = cache(async function getCachedArticles(page = 1
 				page,
 				pageSize,
 			},
+			sort: ['publishedAt:desc'], // сортировка по дате публикации по убыванию
 		},
 		{ encode: false },
 	)
