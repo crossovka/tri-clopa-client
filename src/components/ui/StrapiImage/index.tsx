@@ -20,7 +20,9 @@ export function getStrapiMediaURL(path: string = ''): string {
 		throw new Error('SERVER_URL не определён в переменных окружения')
 	}
 
-	return `${strapiUrl}${path.startsWith('/') ? '' : '/'}${path}`
+	const fullUrl = `${strapiUrl}${path.startsWith('/') ? '' : '/'}${path}`
+	// console.log('Strapi image URL:', fullUrl)
+	return fullUrl
 }
 
 export function StrapiImage({ src, alt, className, ...rest }: Readonly<StrapiImageProps>) {

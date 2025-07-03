@@ -8,8 +8,8 @@ export function getStrapiURL(path: string = ''): string {
 
 export function getStrapiMediaURL(path: string = ''): string {
 	if (!process.env.SERVER_URL) {
-		throw new Error('SERVER_URL не определён в переменных окружения')
+		throw new Error('SERVER_URL не определён в переменных окружениях')
 	}
 	const strapiUrl = process.env.SERVER_URL
-	return `${strapiUrl}${path}`
+	return `${strapiUrl}${path.startsWith('/') ? '' : '/'}${path}`
 }
