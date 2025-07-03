@@ -16,7 +16,7 @@ export function Services({ items }: Readonly<ServicesProps>) {
 					{items.map((item) => {
 						return (
 							<li key={item.id} className="h5">
-								<div className={clsx(styles.services__image, '-ibg', '-ibg_contain')}>
+								<div className={clsx(styles.services__image, '-ibg -ibg_contain')}>
 									{item.image?.url && (
 										<StrapiImage
 											src={item.image.url}
