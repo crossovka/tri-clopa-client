@@ -1,4 +1,4 @@
-import { getCachedSiteSettings, getGlobalSettings } from '@/data/loaders'
+import { getCachedServices, getCachedSiteSettings, getGlobalSettings } from '@/data/loaders'
 import { ToastProvider } from '@/providers'
 
 import type { Metadata } from 'next'
@@ -54,6 +54,9 @@ export default async function RootLayout({
 	const response = await getCachedSiteSettings()
 	const { phoneNumber, whatsapp, email, inn, ogrnip, telegramUsername } = response.data || {}
 
+	const servicesResponse = await getCachedServices()
+	const services = servicesResponse?.data || []
+
 	// const footerData = blocks.find((block: Block) => block.__component === 'layout.footer')
 
 	return (
@@ -66,6 +69,7 @@ export default async function RootLayout({
 							phoneNumber={phoneNumber}
 							whatsapp={whatsapp}
 							telegramUsername={telegramUsername}
+							services={services}
 						/>
 					)}
 					<main>{children}</main>

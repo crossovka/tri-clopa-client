@@ -1,15 +1,17 @@
-import { getCachedArticles, getPages } from '@/data/loaders'
+import { getCachedArticles, getCachedServices, getPages } from '@/data/loaders'
 import { getBaseUrl } from '@/utils/getBaseUrl'
 
-import type { Article, Page } from '@/types/types'
+import type { Article, Page, Service } from '@/types/types'
 
 export async function GET() {
 	const baseUrl = getBaseUrl()
 	const now = new Date().toISOString()
 
-	const [pagesResponse, articlesResponse] = await Promise.all([
+	// Параллельно получаем страницы, статьи и услуги
+	const [pagesResponse, articlesResponse, servicesResponse] = await Promise.all([
 		getPages(),
 		getCachedArticles(1, 200),
+		getCachedServices(1, 200), // подгружаем до 200 услуг
 	])
 
 	const pageUrls = (pagesResponse.data || []).map((page: Page) => {
@@ -30,6 +32,15 @@ export async function GET() {
   </url>`
 	})
 
+	const serviceUrls = (servicesResponse.data || []).map((service: Service) => {
+		return `  <url>
+    <loc>${baseUrl}/services/${service.slug}</loc>
+    <lastmod>${service.publishedAt || now}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>`
+	})
+
 	const blogUrl = `  <url>
     <loc>${baseUrl}/blog</loc>
     <lastmod>${articlesResponse.data?.[0]?.updatedAt || now}</lastmod>
@@ -45,7 +56,7 @@ export async function GET() {
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-${[blogUrl, ...pageUrls, ...articleUrls].join('\n')}
+${[blogUrl, ...pageUrls, ...articleUrls, ...serviceUrls].join('\n')}
 </urlset>`
 
 	return new Response(xml, {

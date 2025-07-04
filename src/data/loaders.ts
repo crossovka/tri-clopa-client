@@ -163,7 +163,7 @@ export const getCachedHomePage = cache(async function getCachedHomePage() {
 			next: { revalidate: 60 }, // Кэшировать 60 сек
 		})
 
-		console.log('Home page response:', response)
+		// console.log('Home page response:', response)
 
 		return response
 	} catch (error) {
@@ -295,7 +295,7 @@ export const getCachedSiteSettings = cache(async function getCachedSiteSettings(
 export const getCachedArticles = cache(async function getCachedArticles(page = 1, pageSize = 10) {
 	const query = qs.stringify(
 		{
-			fields: ['title', 'slug'],
+			fields: ['title', 'slug', 'publishedAt'],
 			populate: { image: true },
 			pagination: {
 				page,
@@ -354,6 +354,72 @@ export const getArticleBySlug = cache(async function getArticleBySlug(slug: stri
 		return response.data[0]
 	} catch (error) {
 		console.error('Ошибка при получении статьи по slug:', error)
+		throw error
+	}
+})
+
+export const getCachedServices = cache(async function getCachedServices(page = 1, pageSize = 100) {
+	const query = qs.stringify(
+		{
+			fields: ['title', 'slug', 'publishedAt'],
+			populate: {
+				blocks: { populate: '*' },
+				seo: { populate: '*' },
+			},
+			pagination: {
+				page,
+				pageSize,
+			},
+			sort: ['publishedAt:desc'], // сортировка по дате публикации по убыванию
+		},
+		{ encode: false },
+	)
+
+	const url = new URL('services', getStrapiURL())
+	url.search = query
+
+	try {
+		const response = await fetchAPI(url.href, {
+			method: 'GET',
+			next: { revalidate: 60 },
+		})
+
+		// console.log('услуг response:', response)
+
+		return response
+	} catch (error) {
+		console.error('Ошибка при получении услуг', error)
+		throw error
+	}
+})
+
+export const getServiceBySlug = cache(async function getServiceBySlug(slug: string) {
+	const query = qs.stringify(
+		{
+			filters: { slug },
+			populate: {
+				blocks: { populate: '*' },
+				seo: { populate: '*' },
+			},
+		},
+		{ encode: false },
+	)
+
+	const url = new URL('services', getStrapiURL())
+	url.search = query
+
+	try {
+		const response = await fetchAPI(url.href, {
+			method: 'GET',
+			next: { revalidate: 60 },
+		})
+
+		// console.log('Service response from Strapi:', JSON.stringify(response, null, 2))
+
+		// Вернёт первую услугу с совпадающим slug
+		return response?.data?.[0] ?? null
+	} catch (error) {
+		console.error('Ошибка при получении услуги по slug:', error)
 		throw error
 	}
 })

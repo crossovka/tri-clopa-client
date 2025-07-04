@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -14,7 +15,7 @@ import { PhoneIcon } from '@/components/icons/PhoneIcon'
 import { TelegramIcon } from '@/components/icons/TelegramIcon'
 import { WhatsappIcon } from '@/components/icons/WhatsappIcon'
 
-import type { ButtonProps, LinkProps } from '@/types/types'
+import type { ButtonProps, LinkProps, Service } from '@/types/types'
 
 // удобно для динамических классов
 
@@ -27,11 +28,13 @@ interface HeaderProps {
 	phoneNumber: string
 	whatsapp: string
 	telegramUsername: string
+	services: Service[]
 }
 
-export function Header({ data, phoneNumber, whatsapp, telegramUsername }: HeaderProps) {
+export function Header({ data, phoneNumber, whatsapp, telegramUsername, services }: HeaderProps) {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
 	const [isScrolled, setIsScrolled] = useState(false)
+	const [isServicesOpen, setIsServicesOpen] = useState(false)
 	const pathname = usePathname()
 
 	useEffect(() => {
@@ -52,6 +55,14 @@ export function Header({ data, phoneNumber, whatsapp, telegramUsername }: Header
 			document.body.classList.remove('menu-open')
 		}
 	}, [isMenuOpen])
+
+	useEffect(() => {
+		if (isServicesOpen) {
+			document.body.classList.add('services-open')
+		} else {
+			document.body.classList.remove('services-open')
+		}
+	}, [isServicesOpen])
 
 	if (!data) return null
 
@@ -81,6 +92,43 @@ export function Header({ data, phoneNumber, whatsapp, telegramUsername }: Header
 								</li>
 							)
 						})}
+
+						{/* Пункт меню Услуги с выпадашкой */}
+						<li className="services-menu">
+							<button
+								className="services-menu__btn"
+								onClick={() => setIsServicesOpen((open) => !open)}
+								aria-expanded={isServicesOpen}
+							>
+								<h5>Услуги</h5>
+								<div className='services-menu__icon -ibg -ibg_contain'>
+								<Image
+									src="/icons/arrow.svg"
+									alt="next"
+									fill
+									priority={true}
+									style={{ transform: 'rotate(180deg)' }}
+								/>
+								</div>
+							</button>
+							{isServicesOpen && (
+								<ul className="services-menu__list">
+									{services.map((service) => (
+										<li key={service.id}>
+											<Link
+												href={`/services/${service.slug}`}
+												onClick={() => {
+													setIsMenuOpen(false)
+													setIsServicesOpen(false)
+												}}
+											>
+												{service.title}
+											</Link>
+										</li>
+									))}
+								</ul>
+							)}
+						</li>
 					</ul>
 				</div>
 
