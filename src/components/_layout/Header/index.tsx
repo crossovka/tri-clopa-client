@@ -64,6 +64,20 @@ export function Header({ data, phoneNumber, whatsapp, telegramUsername, services
 		}
 	}, [isServicesOpen])
 
+	useEffect(() => {
+		const handleClickOutside = (e: MouseEvent) => {
+			const target = e.target as HTMLElement
+			if (!target.closest('.services-menu')) {
+				setIsServicesOpen(false)
+			}
+		}
+
+		document.addEventListener('click', handleClickOutside)
+		return () => {
+			document.removeEventListener('click', handleClickOutside)
+		}
+	}, [])
+
 	if (!data) return null
 
 	const { logo, navigation } = data
@@ -101,33 +115,33 @@ export function Header({ data, phoneNumber, whatsapp, telegramUsername, services
 								aria-expanded={isServicesOpen}
 							>
 								<h5>Услуги</h5>
-								<div className='services-menu__icon -ibg -ibg_contain'>
-								<Image
-									src="/icons/arrow.svg"
-									alt="next"
-									fill
-									priority={true}
-									style={{ transform: 'rotate(180deg)' }}
-								/>
+								<div className="services-menu__icon -ibg -ibg_contain">
+									<Image
+										src="/icons/arrow.svg"
+										alt="next"
+										fill
+										priority={true}
+										style={{ transform: 'rotate(180deg)' }}
+									/>
 								</div>
 							</button>
-							{isServicesOpen && (
-								<ul className="services-menu__list">
-									{services.map((service) => (
-										<li key={service.id}>
-											<Link
-												href={`/services/${service.slug}`}
-												onClick={() => {
-													setIsMenuOpen(false)
-													setIsServicesOpen(false)
-												}}
-											>
-												{service.title}
-											</Link>
-										</li>
-									))}
-								</ul>
-							)}
+							{/* {isServicesOpen && ( */}
+							<ul className="services-menu__list">
+								{services.map((service) => (
+									<li key={service.id}>
+										<Link
+											href={`/services/${service.slug}`}
+											onClick={() => {
+												setIsMenuOpen(false)
+												setIsServicesOpen(false)
+											}}
+										>
+											{service.title}
+										</Link>
+									</li>
+								))}
+							</ul>
+							{/* // )} */}
 						</li>
 					</ul>
 				</div>
