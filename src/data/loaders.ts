@@ -91,6 +91,11 @@ const homePageQuery = qs.stringify(
 							},
 						},
 					},
+					'blocks.reviews': {
+						populate: {
+							reviews: '*',
+						},
+					},
 				},
 			},
 		},

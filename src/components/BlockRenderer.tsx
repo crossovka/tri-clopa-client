@@ -10,6 +10,7 @@ import {
 	Process,
 	Services,
 	Trust,
+	Reviews
 } from './blocks'
 
 import type {
@@ -25,6 +26,7 @@ import type {
 	ProcessProps,
 	ServicesProps,
 	TrustProps,
+	ReviewsProps
 } from '@/types/types'
 
 function blockRenderer(block: Block, index: number) {
@@ -53,6 +55,8 @@ function blockRenderer(block: Block, index: number) {
 			return <Faq {...(block as FaqProps)} key={uniqueKey} />
 		case 'blocks.image':
 			return <ImageBlock {...(block as ImageBlockProps)} key={uniqueKey} />
+		case 'blocks.reviews':
+			return <Reviews {...(block as ReviewsProps)} key={uniqueKey} />
 		default:
 			console.warn(`Неизвестный блок: ${block.__component}`)
 			return null

@@ -11,6 +11,7 @@ export type Block =
 	| TrustProps
 	| ProcessProps
 	| FaqProps
+	| ReviewsProps
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	| Base<ComponentType, any> // Добавляем базовый тип
 
@@ -26,6 +27,7 @@ type ComponentType =
 	| 'blocks.services'
 	| 'blocks.process'
 	| 'blocks.trust'
+	| 'blocks.reviews'
 	| 'layout.header'
 	| 'layout.footer'
 
@@ -68,6 +70,13 @@ export interface spoller {
 	id: number
 	title: string
 	content: string
+}
+
+export interface review {
+	id: number
+	content: string
+	name: string
+	city: string
 }
 
 // Blocks ========================================================================================================================================================
@@ -142,6 +151,10 @@ export interface FaqProps extends Base<'blocks.faq'> {
 	items: spoller[]
 }
 
+export interface ReviewsProps extends Base<'blocks.reviews'> {
+	reviews: review[]
+}
+
 export interface StrapiSEO {
 	id: number
 	metaTitle: string
@@ -194,8 +207,8 @@ export interface OpenGraph {
 	ogTitle: string
 	ogDescription: string
 	ogUrl: string
-	ogType: 'website' | 'article' | 'profile' | 'book'; // ограничение по типу
-} 
+	ogType: 'website' | 'article' | 'profile' | 'book' // ограничение по типу
+}
 
 //========================================================================================================================================================
 export interface Page {
