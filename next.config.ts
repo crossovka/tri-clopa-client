@@ -1,16 +1,14 @@
+import { getHostname, getMediaHostname } from '@/utils/strapi-domains'
+
 import type { NextConfig } from 'next'
 
-const prodStrapiDomain = new URL(process.env.SERVER_URL || 'http://localhost:1337').hostname
+// console.log('👉 Hostname:', getHostname())
+// console.log('👉 Media Hostname:', getMediaHostname())
 
 const nextConfig: NextConfig = {
 	productionBrowserSourceMaps: false,
 	images: {
-		domains: [
-			'localhost',
-			prodStrapiDomain,
-			'сервер.три-клопа.рф', // можно оставить
-			'сервер.три-клопа.media.рф', // **добавь этот!**
-		],
+		domains: ['localhost', getHostname(), getMediaHostname()],
 	},
 }
 
