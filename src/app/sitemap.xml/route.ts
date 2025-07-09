@@ -1,7 +1,9 @@
 import { getCachedArticles, getCachedServices, getPages } from '@/data/loaders'
 import { getBaseUrl } from '@/utils/getBaseUrl'
 
-import type { Article, Page, Service } from '@/types/types'
+import { Article } from '@/types/articles.types'
+import { Page } from '@/types/pages.types'
+import { Service } from '@/types/services.types'
 
 export async function GET() {
 	const baseUrl = getBaseUrl()

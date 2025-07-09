@@ -4,7 +4,7 @@ import { JSX } from 'react'
 
 import styles from './Heading.module.scss'
 
-import type { HeadingProps } from '@/types/types'
+import type { HeadingProps } from '@/types/blocks.types'
 
 const defaultLevel: HeadingProps['level'] = 'h3'
 

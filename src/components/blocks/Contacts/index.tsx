@@ -6,7 +6,7 @@ import { Heading } from '../Heading'
 import styles from './Contacts.module.scss'
 import ContactsForm from './ContactsForm'
 
-import { ContactsProps } from '@/types/types'
+import { ContactsProps } from '@/types/blocks.types'
 
 export const Contacts: React.FC<ContactsProps> = ({ title, image }) => {
 	return (

@@ -6,7 +6,7 @@ import { StrapiImage } from '@/components/ui'
 
 import styles from './HeroSection.module.scss'
 
-import type { HeroSectionProps } from '@/types/types'
+import type { HeroSectionProps } from '@/types/blocks.types'
 
 export function HeroSection({ heading, description, image }: Readonly<HeroSectionProps>) {
 	return (

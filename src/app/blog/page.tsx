@@ -4,7 +4,7 @@ import { Metadata } from 'next'
 
 import { BlogPageUI } from '@/components/pages/BlogPage'
 
-import { Article } from '@/types/types'
+import { Article } from '@/types/articles.types'
 
 type Props = {
 	searchParams?: Promise<{ page?: string }>

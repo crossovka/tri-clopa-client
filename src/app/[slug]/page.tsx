@@ -8,7 +8,8 @@ import { notFound } from 'next/navigation'
 
 import { BlockRenderer } from '@/components/BlockRenderer'
 
-import { Page, PagesResponse, StrapiSEO } from '@/types/types'
+import { Page, PagesResponse } from '@/types/pages.types'
+import { StrapiSEO } from '@/types/seo.types'
 
 async function loader(slug: string): Promise<Page> {
 	if (!slug) notFound()

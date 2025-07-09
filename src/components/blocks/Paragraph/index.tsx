@@ -4,7 +4,7 @@ import rehypeRaw from 'rehype-raw'
 
 import styles from './Paragraph.module.scss'
 
-import type { ParagraphProps } from '@/types/types'
+import type { ParagraphProps } from '@/types/blocks.types'
 
 export function Paragraph({ content }: Readonly<ParagraphProps>) {
 	return (

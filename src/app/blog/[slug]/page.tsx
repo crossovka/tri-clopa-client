@@ -7,7 +7,8 @@ import { notFound } from 'next/navigation'
 
 import { ArticlePageUI } from '@/components/pages/ArticlePage'
 
-import type { Article, StrapiSEO } from '@/types/types'
+import { Article } from '@/types/articles.types'
+import { StrapiSEO } from '@/types/seo.types'
 
 async function loader(slug: string): Promise<Article> {
 	if (!slug) notFound()

@@ -3,7 +3,7 @@ import { Heading } from '@/components/blocks'
 import styles from './Faq.module.scss'
 import { FaqItem } from './FaqItem'
 
-import type { FaqProps } from '@/types/types'
+import type { FaqProps } from '@/types/blocks.types'
 
 export function Faq({ items }: Readonly<FaqProps>) {
 	return (

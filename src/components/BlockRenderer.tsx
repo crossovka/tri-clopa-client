@@ -8,13 +8,12 @@ import {
 	Paragraph,
 	ParagraphWithImage,
 	Process,
+	Reviews,
 	Services,
 	Trust,
-	Reviews
 } from './blocks'
 
 import type {
-	Block,
 	ContactsProps,
 	FaqProps,
 	HeadingProps,
@@ -24,10 +23,11 @@ import type {
 	ParagraphProps,
 	ParagraphWithImageProps,
 	ProcessProps,
+	ReviewsProps,
 	ServicesProps,
 	TrustProps,
-	ReviewsProps
-} from '@/types/types'
+} from '@/types/blocks.types'
+import { Block } from '@/types/common.types'
 
 function blockRenderer(block: Block, index: number) {
 	const uniqueKey = `${block.__component}-${block.id || index}` // Безопасный ключ

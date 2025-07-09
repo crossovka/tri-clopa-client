@@ -1,0 +1,152 @@
+%ic {
+	font-family: "icons" !important;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	speak: never;
+	font-display: block;
+
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+[class*="_icon-"] {
+	&:before {
+		@extend %ic;
+		display: block;
+	}
+}
+
+@font-face {
+	font-family: 'icons';
+	src: url('/fonts/icons.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+// public/fonts/icons.woff
+
+// <i className="_icon-telegram" />
+// <i className="_icon-whatsapp" />
+
+// могу сделать компонент Icon типа:
+// <Icon name="telegram" />
+// который внутри генерирует нужный <i className="_icon-telegram" />.
+
+._icon-uncheked:before {
+	content: "\e919";
+	color: #fff;
+}
+
+._icon--cheked .path1:before {
+	content: "\e91a";
+	color: rgb(29, 29, 29);
+}
+
+._icon--cheked .path2:before {
+	content: "\e91b";
+	margin-left: -1em;
+	color: rgb(255, 255, 255);
+}
+
+._icon-cards:before {
+	content: "\e914";
+}
+
+._icon-sbp:before {
+	content: "\e915";
+}
+
+._icon-sber-pay:before {
+	content: "\e916";
+}
+
+._icon-receipt:before {
+	content: "\e917";
+}
+
+._icon-checbox:before {
+	content: "\e918";
+}
+
+._icon-arrow-right:before {
+	content: "\e910";
+}
+
+._icon-ok:before {
+	content: "\e900";
+}
+
+._icon-arrow:before {
+	content: "\e901";
+}
+
+._icon-play:before {
+	content: "\e903";
+}
+
+._icon-people:before {
+	content: "\e90f";
+}
+
+._icon-map:before {
+	content: "\e912";
+}
+
+._icon-document:before {
+	content: "\e913";
+}
+
+._icon-arrow-down:before {
+	content: "\e911";
+}
+
+._icon-facebook:before {
+	content: "\e905";
+}
+
+._icon-clock:before {
+	content: "\e90c";
+}
+
+._icon-twitter:before {
+	content: "\e90d";
+}
+
+._icon-location:before {
+	content: "\e90e";
+}
+
+._icon-mail:before {
+	content: "\e907";
+}
+
+._icon-tel:before {
+	content: "\e90b";
+}
+
+._icon-devmark:before {
+	content: "\e902";
+}
+
+._icon-instagram:before {
+	content: "\e904";
+}
+
+._icon-telegram:before {
+	content: "\e906";
+}
+
+._icon-vk:before {
+	content: "\e908";
+}
+
+._icon-whatsapp:before {
+	content: "\e909";
+}
+
+._icon-youtube:before {
+	content: "\e90a";
+}

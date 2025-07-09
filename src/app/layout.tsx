@@ -11,7 +11,7 @@ import { Footer, Header } from '@/components/_layout'
 import '../sass/main.scss'
 import '../sass/roots/roots.tokens.scss'
 
-import { Block } from '@/types/types'
+import { Block } from '@/types/common.types'
 
 const roboto = Roboto({
 	variable: '--font-roboto',

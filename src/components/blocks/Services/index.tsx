@@ -5,7 +5,7 @@ import { StrapiImage } from '@/components/ui'
 
 import styles from './Services.module.scss'
 
-import type { ServicesProps } from '@/types/types'
+import type { ServicesProps } from '@/types/blocks.types'
 
 export function Services({ items }: Readonly<ServicesProps>) {
 	return (

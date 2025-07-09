@@ -15,7 +15,9 @@ import { PhoneIcon } from '@/components/icons/PhoneIcon'
 import { TelegramIcon } from '@/components/icons/TelegramIcon'
 import { WhatsappIcon } from '@/components/icons/WhatsappIcon'
 
-import type { ButtonProps, LinkProps, Service } from '@/types/types'
+import { ButtonProps } from '@/types/buttons.types'
+import { LinkProps } from '@/types/elements.types'
+import { Service } from '@/types/services.types'
 
 // удобно для динамических классов
 

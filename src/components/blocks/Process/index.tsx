@@ -5,7 +5,7 @@ import { StrapiImage } from '@/components/ui'
 
 import styles from './Process.module.scss'
 
-import type { ProcessProps } from '@/types/types'
+import type { ProcessProps } from '@/types/blocks.types'
 
 export function Process({ items }: Readonly<ProcessProps>) {
 	return (

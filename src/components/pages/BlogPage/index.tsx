@@ -5,7 +5,7 @@ import { Pagination, StrapiImage } from '@/components/ui'
 
 import styles from './BlogPageUI.module.scss'
 
-import { Article } from '@/types/types'
+import { Article } from '@/types/articles.types'
 
 type BlogPageUIProps = {
 	articles: Article[]

@@ -6,7 +6,7 @@ import React from 'react'
 
 import styles from './Button.module.scss'
 
-import type { ButtonProps } from '@/types/types'
+import { ButtonProps } from '@/types/buttons.types'
 
 export const Button: React.FC<ButtonProps> = ({
 	href,

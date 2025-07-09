@@ -4,7 +4,7 @@ import { Fancybox, StrapiImage } from '@/components/ui'
 
 import styles from './ImageBlock.module.scss'
 
-import type { ImageBlockProps } from '@/types/types'
+import type { ImageBlockProps } from '@/types/blocks.types'
 
 export function ImageBlock({ image }: Readonly<ImageBlockProps>) {
 	return (

@@ -6,7 +6,7 @@ import { Fancybox, StrapiImage } from '@/components/ui'
 
 import styles from './ParagraphWithImage.module.scss'
 
-import type { ParagraphWithImageProps } from '@/types/types'
+import type { ParagraphWithImageProps } from '@/types/blocks.types'
 
 export function ParagraphWithImage({
 	content,

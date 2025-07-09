@@ -6,7 +6,7 @@ import { Fancybox, StrapiImage } from '@/components/ui'
 
 import styles from './ArticlePageUI.module.scss'
 
-import { Article } from '@/types/types'
+import { Article } from '@/types/articles.types'
 
 type ArticlePageUIProps = {
 	article: Article

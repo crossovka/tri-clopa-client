@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation'
 
 import { BlockRenderer } from '@/components/BlockRenderer'
 
-import { StrapiSEO } from '@/types/types'
+import { StrapiSEO } from '@/types/seo.types'
 
 async function loader() {
 	const data = await getCachedHomePage()

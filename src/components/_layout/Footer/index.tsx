@@ -15,6 +15,9 @@ export function Footer({ phoneNumber, email, inn, ogrnip }: FooterProps) {
 	return (
 		<footer className="footer">
 			<div className="__container">
+			<i className="_icon-telegram" />
+			<i className="_icon-whatsapp" />
+
 				<div className="contact">
 					<a
 						className="telephone"

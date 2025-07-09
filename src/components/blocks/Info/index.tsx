@@ -1,6 +1,6 @@
 import styles from './Info.module.scss'
 
-import type { InfoProps } from '@/types/types'
+import type { InfoProps } from '@/types/blocks.types'
 
 export function Info({ items }: Readonly<InfoProps>) {
 	return (

@@ -10,7 +10,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 import styles from './Reviews.module.scss'
 
-import { ReviewsProps } from '@/types/types'
+import { ReviewsProps } from '@/types/blocks.types'
 
 export function Reviews({ reviews }: ReviewsProps) {
 	return (

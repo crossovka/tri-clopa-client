@@ -2,7 +2,7 @@ import { Heading } from '@/components/blocks'
 
 import styles from './Trust.module.scss'
 
-import type { TrustProps } from '@/types/types'
+import type { TrustProps } from '@/types/blocks.types'
 
 export function Trust({ items }: Readonly<TrustProps>) {
 	return (
