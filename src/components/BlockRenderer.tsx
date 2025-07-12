@@ -1,3 +1,5 @@
+'use client'
+
 import {
 	Contacts,
 	Faq,
@@ -27,42 +29,73 @@ import type {
 	ServicesProps,
 	TrustProps,
 } from '@/types/blocks.types'
-import { Block } from '@/types/common.types'
+import type { Block } from '@/types/common.types'
 
-function blockRenderer(block: Block, index: number) {
-	const uniqueKey = `${block.__component}-${block.id || index}` // Безопасный ключ
+// 💡 Расширяем тип блока, добавляя globalKey и useGlobal
+type BlockWithGlobal = Block & {
+	useGlobal?: boolean
+	globalKey?: string
+}
 
-	switch (block.__component) {
+// 🔄 Возвращает объединённый блок, если указан globalKey
+function getBlockWithGlobal<T extends BlockWithGlobal>(
+	block: T,
+	globalBlocks: BlockWithGlobal[],
+): T {
+	if (block.useGlobal && block.globalKey) {
+		const global = globalBlocks.find(
+			(g) => g.__component === block.__component && g.globalKey === block.globalKey,
+		)
+		if (global) {
+			return { ...block, ...global }
+		}
+	}
+	return block
+}
+
+// 🧱 Рендер одного блока
+function blockRenderer(block: BlockWithGlobal, index: number, globalBlocks: BlockWithGlobal[]) {
+	const finalBlock = getBlockWithGlobal(block, globalBlocks)
+	const uniqueKey = `${finalBlock.__component}-${finalBlock.id || index}`
+
+	switch (finalBlock.__component) {
 		case 'blocks.hero-section':
-			return <HeroSection {...(block as HeroSectionProps)} key={uniqueKey} />
+			return <HeroSection {...(finalBlock as HeroSectionProps)} key={uniqueKey} />
 		case 'blocks.heading':
-			return <Heading {...(block as HeadingProps)} key={uniqueKey} />
+			return <Heading {...(finalBlock as HeadingProps)} key={uniqueKey} />
 		case 'blocks.paragraph-with-image':
-			return <ParagraphWithImage {...(block as ParagraphWithImageProps)} key={uniqueKey} />
+			return <ParagraphWithImage {...(finalBlock as ParagraphWithImageProps)} key={uniqueKey} />
 		case 'blocks.paragraph':
-			return <Paragraph {...(block as ParagraphProps)} key={uniqueKey} />
+			return <Paragraph {...(finalBlock as ParagraphProps)} key={uniqueKey} />
 		case 'blocks.contacts':
-			return <Contacts {...(block as ContactsProps)} key={uniqueKey} />
+			return <Contacts {...(finalBlock as ContactsProps)} key={uniqueKey} />
 		case 'blocks.info':
-			return <Info {...(block as InfoProps)} key={uniqueKey} />
+			return <Info {...(finalBlock as InfoProps)} key={uniqueKey} />
 		case 'blocks.services':
-			return <Services {...(block as ServicesProps)} key={uniqueKey} />
+			return <Services {...(finalBlock as ServicesProps)} key={uniqueKey} />
 		case 'blocks.trust':
-			return <Trust {...(block as TrustProps)} key={uniqueKey} />
+			return <Trust {...(finalBlock as TrustProps)} key={uniqueKey} />
 		case 'blocks.process':
-			return <Process {...(block as ProcessProps)} key={uniqueKey} />
+			return <Process {...(finalBlock as ProcessProps)} key={uniqueKey} />
 		case 'blocks.faq':
-			return <Faq {...(block as FaqProps)} key={uniqueKey} />
+			return <Faq {...(finalBlock as FaqProps)} key={uniqueKey} />
 		case 'blocks.image':
-			return <ImageBlock {...(block as ImageBlockProps)} key={uniqueKey} />
+			return <ImageBlock {...(finalBlock as ImageBlockProps)} key={uniqueKey} />
 		case 'blocks.reviews':
-			return <Reviews {...(block as ReviewsProps)} key={uniqueKey} />
+			return <Reviews {...(finalBlock as ReviewsProps)} key={uniqueKey} />
 		default:
-			console.warn(`Неизвестный блок: ${block.__component}`)
+			console.warn(`Неизвестный блок: ${finalBlock.__component}`)
 			return null
 	}
 }
 
-export function BlockRenderer({ blocks }: { blocks: Block[] }) {
-	return <>{blocks.map(blockRenderer)}</>
+// 📦 Компонент рендеринга всех блоков с поддержкой глобальных
+export function BlockRenderer({
+	blocks,
+	globalBlocks,
+}: {
+	blocks: Block[]
+	globalBlocks: Block[]
+}) {
+	return <>{blocks.map((block, i) => blockRenderer(block, i, globalBlocks))}</>
 }

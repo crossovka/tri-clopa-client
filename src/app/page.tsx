@@ -1,4 +1,5 @@
 import { getCachedHomePage } from '@/data/loaders'
+import { getCachedGlobalBlocks } from '@/data/loaders/global-blocks'
 import { getStrapiMediaURL } from '@/utils/get-strapi-url'
 import { getBaseUrl } from '@/utils/getBaseUrl'
 
@@ -10,9 +11,17 @@ import { BlockRenderer } from '@/components/BlockRenderer'
 import { StrapiSEO } from '@/types/seo.types'
 
 async function loader() {
-	const data = await getCachedHomePage()
-	if (!data) notFound()
-	return data.data
+	const [homePageRes, globalBlocksRes] = await Promise.all([
+		getCachedHomePage(),
+		getCachedGlobalBlocks(),
+	])
+
+	if (!homePageRes || !globalBlocksRes) notFound()
+
+	return {
+		blocks: homePageRes.data.blocks,
+		globalBlocks: globalBlocksRes.data.blocks,
+	}
 }
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -89,6 +98,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomeRoute() {
-	const { blocks } = await loader()
-	return <BlockRenderer blocks={blocks} />
+	const { blocks, globalBlocks } = await loader()
+	return <BlockRenderer blocks={blocks} globalBlocks={globalBlocks} />
 }
