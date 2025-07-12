@@ -1,5 +1,6 @@
 import { getPageBySlug } from '@/data/loaders'
 import { getPages } from '@/data/loaders'
+import { getCachedGlobalBlocks } from '@/data/loaders/global-blocks'
 import { getStrapiMediaURL } from '@/utils/get-strapi-url'
 import { getBaseUrl } from '@/utils/getBaseUrl'
 
@@ -8,20 +9,26 @@ import { notFound } from 'next/navigation'
 
 import { BlockRenderer } from '@/components/BlockRenderer'
 
+import { Block } from '@/types/common.types'
 import { Page, PagesResponse } from '@/types/pages.types'
 import { StrapiSEO } from '@/types/seo.types'
 
-async function loader(slug: string): Promise<Page> {
+async function loader(slug: string): Promise<{ page: Page; globalBlocks: Block[] }> {
 	if (!slug) notFound()
 
-	const response = await getPageBySlug(slug)
-	const { data } = response as { data: Page[] }
+	const [pageRes, globalBlocksRes] = await Promise.all([
+		getPageBySlug(slug),
+		getCachedGlobalBlocks(),
+	])
 
-	if (!data?.length) notFound()
+	const { data } = pageRes as { data: Page[] }
+	if (!data?.length || !globalBlocksRes?.data?.blocks) notFound()
 
-	return data[0]
+	return {
+		page: data[0],
+		globalBlocks: globalBlocksRes.data.blocks,
+	}
 }
-
 export async function generateMetadata({
 	params,
 }: {
@@ -30,8 +37,8 @@ export async function generateMetadata({
 	const { slug } = await params
 
 	try {
-		const data = await loader(slug)
-		const seo = data.seo as StrapiSEO | undefined
+		const { page } = await loader(slug)
+		const seo = page.seo as StrapiSEO | undefined
 
 		if (seo) {
 			const validOgTypes = ['website', 'article', 'profile', 'book'] as const
@@ -61,7 +68,7 @@ export async function generateMetadata({
 					: undefined
 
 			return {
-				title: seo.metaTitle || data.title || 'Страница',
+				title: seo.metaTitle || page.title || 'Страница',
 				description: seo.metaDescription || 'Описание отсутствует',
 				robots: seo.metaRobots || 'index, follow',
 				alternates: {
@@ -77,7 +84,7 @@ export async function generateMetadata({
 		} else {
 			// fallback без SEO блока
 			return {
-				title: data.title || 'Страница',
+				title: page.title || 'Страница',
 				description: 'Описание отсутствует',
 				robots: 'index, follow',
 				alternates: {
@@ -99,8 +106,9 @@ type PageProps = { params: Promise<{ slug: string }> }
 
 export default async function DynamicPageRoute(props: PageProps) {
 	const { slug } = await props.params
-	const data = await loader(slug)
-	return <BlockRenderer blocks={data?.blocks || []} />
+	const { page, globalBlocks } = await loader(slug)
+
+	return <BlockRenderer blocks={page.blocks || []} globalBlocks={globalBlocks} />
 }
 
 // // Логируем данные всех страниц при загрузке

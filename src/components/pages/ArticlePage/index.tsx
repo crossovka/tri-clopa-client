@@ -7,12 +7,14 @@ import { Fancybox, StrapiImage } from '@/components/ui'
 import styles from './ArticlePageUI.module.scss'
 
 import { Article } from '@/types/articles.types'
+import { Block } from '@/types/common.types'
 
 type ArticlePageUIProps = {
 	article: Article
+	globalBlocks: Block[]
 }
 
-export function ArticlePageUI({ article }: ArticlePageUIProps) {
+export function ArticlePageUI({ article, globalBlocks }: ArticlePageUIProps) {
 	return (
 		<article className={styles.article}>
 			<div className="__container">
@@ -37,7 +39,7 @@ export function ArticlePageUI({ article }: ArticlePageUIProps) {
 			</div>
 
 			<div className={styles.content}>
-				<BlockRenderer blocks={article.blocks || []} />
+				<BlockRenderer blocks={article.blocks || []} globalBlocks={globalBlocks} />
 			</div>
 		</article>
 	)

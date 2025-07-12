@@ -1,4 +1,5 @@
 import { getArticleBySlug } from '@/data/loaders'
+import { getCachedGlobalBlocks } from '@/data/loaders/global-blocks'
 import { getStrapiMediaURL } from '@/utils/get-strapi-url'
 import { getBaseUrl } from '@/utils/getBaseUrl'
 
@@ -8,17 +9,24 @@ import { notFound } from 'next/navigation'
 import { ArticlePageUI } from '@/components/pages/ArticlePage'
 
 import { Article } from '@/types/articles.types'
+import { Block } from '@/types/common.types'
 import { StrapiSEO } from '@/types/seo.types'
 
-async function loader(slug: string): Promise<Article> {
+async function loader(slug: string): Promise<{ article: Article; globalBlocks: Block[] }> {
 	if (!slug) notFound()
 
-	const article = await getArticleBySlug(slug)
-	if (!article) notFound()
+	const [article, globalBlocksRes] = await Promise.all([
+		getArticleBySlug(slug),
+		getCachedGlobalBlocks(),
+	])
 
-	return article
+	if (!article || !globalBlocksRes?.data?.blocks) notFound()
+
+	return {
+		article,
+		globalBlocks: globalBlocksRes.data.blocks,
+	}
 }
-
 export async function generateMetadata({
 	params,
 }: {
@@ -27,7 +35,7 @@ export async function generateMetadata({
 	const { slug } = await params
 
 	try {
-		const article = await loader(slug)
+		const { article } = await loader(slug)
 		const seo = article.seo as StrapiSEO | undefined
 
 		const validOgTypes = ['website', 'article', 'profile', 'book'] as const
@@ -87,6 +95,6 @@ export async function generateMetadata({
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
 	const { slug } = await params
 
-	const article = await loader(slug)
-	return <ArticlePageUI article={article} />
+	const { article, globalBlocks } = await loader(slug)
+	return <ArticlePageUI article={article} globalBlocks={globalBlocks} />
 }
