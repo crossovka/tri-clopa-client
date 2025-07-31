@@ -189,7 +189,7 @@
 			flex-wrap: nowrap;
 
 			height: calc(100% - 94px);
-			width: 25%;
+			width: 35%;
 
 			flex-direction: column;
 			align-items: baseline;
@@ -227,7 +227,7 @@
 		}
 
 		@media (max-width: $mobile) {
-			width: 50%;
+			width: 70%;
 		}
 	}
 }

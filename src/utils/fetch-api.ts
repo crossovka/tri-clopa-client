@@ -4,35 +4,67 @@ type NextFetchRequestConfig = {
 }
 
 interface FetchAPIOptions {
-	method: 'GET' | 'POST' | 'PUT' | 'DELETE'
-	authToken?: string
-	body?: Record<string, unknown>
-	next?: NextFetchRequestConfig
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+  authToken?: string;
+  body?: Record<string, unknown> | FormData;
+  next?: NextFetchRequestConfig;
+  cache?: RequestCache;
+  headers?: Record<string, string>;
 }
 
-export async function fetchAPI(url: string, options: FetchAPIOptions) {
-	const { method, authToken, body, next } = options
+export async function fetchAPI(
+  url: string,
+  options: FetchAPIOptions
+): Promise<any> {
+  const { method, authToken, body, next, cache = 'default', headers = {} } = options;
 
-	const headers: HeadersInit = {
-		'Content-Type': 'application/json',
-		...(authToken && { Authorization: `Bearer ${authToken}` }),
-	}
+  // Создаем базовые заголовки
+  const defaultHeaders: HeadersInit = {
+    'Content-Type': 'application/json',
+    ...(authToken && { Authorization: `Bearer ${authToken}` }),
+    ...headers,
+  };
 
-	const fetchOptions: RequestInit & { next?: NextFetchRequestConfig } = {
-		method,
-		headers,
-		...(body && { body: JSON.stringify(body) }),
-		...(next && { next }), // Вставляем кэширование
-	}
+  // Если body является FormData, удаляем Content-Type для корректной загрузки файлов
+  if (body instanceof FormData) {
+    delete defaultHeaders['Content-Type'];
+  }
 
-	try {
-		const response = await fetch(url, fetchOptions)
-		if (!response.ok) {
-			throw new Error(`Ошибка запроса: ${response.status} ${response.statusText}`)
-		}
-		return await response.json()
-	} catch (error) {
-		console.error(`Ошибка ${method} запроса:`, error)
-		throw error
-	}
+  const fetchOptions: RequestInit & { next?: NextFetchRequestConfig } = {
+    method,
+    headers: defaultHeaders,
+    cache,
+    ...(next && { next }),
+  };
+
+  // Добавляем body только если это не GET запрос
+  if (method !== 'GET' && body) {
+    fetchOptions.body = body instanceof FormData ? body : JSON.stringify(body);
+  }
+
+  try {
+    const response = await fetch(url, fetchOptions);
+
+    // Обрабатываем случаи, когда ответ не JSON (например, файлы)
+    const contentType = response.headers.get('content-type');
+    const data = contentType?.includes('application/json')
+      ? await response.json()
+      : await response.blob();
+
+    if (!response.ok) {
+      throw new Error(
+        `Request failed: ${response.status} ${response.statusText}\n${JSON.stringify(
+          data?.message || data
+        )}`
+      );
+    }
+
+    return data;
+  } catch (error) {
+    console.error(`[fetchAPI] ${method} request to ${url} failed:`, error);
+
+    // Улучшенная обработка ошибок
+    const errorMessage = error instanceof Error ? error.message : 'Unknown fetch error';
+    throw new Error(`API request failed: ${errorMessage}`);
+  }
 }

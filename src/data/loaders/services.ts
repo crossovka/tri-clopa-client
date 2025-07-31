@@ -1,6 +1,7 @@
+import qs from 'qs'
+
 import { fetchAPI } from '@/utils/fetch-api'
 import { getStrapiURL } from '@/utils/get-strapi-url'
-import qs from 'qs'
 
 import { cache } from 'react'
 
@@ -8,10 +9,11 @@ export const getCachedServices = cache(async function getCachedServices(page = 1
 	const query = qs.stringify(
 		{
 			fields: ['title', 'slug', 'publishedAt'],
-			populate: {
-				blocks: { populate: '*' },
-				seo: { populate: '*' },
-			},
+			// в шапке не нужны блоки и сео если слаг не оттуда только берётся
+			// populate: {
+			// 	blocks: { populate: '*' },
+			// 	seo: { populate: '*' },
+			// },
 			pagination: {
 				page,
 				pageSize,

@@ -1,4 +1,5 @@
-import { Block, StrapiSEO } from './types'
+import { Block } from "./common.types"
+import { StrapiSEO } from "./seo.types"
 
 export type Service = {
 	id: number
