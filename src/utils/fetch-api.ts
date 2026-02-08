@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type NextFetchRequestConfig = {
 	revalidate?: number | false
 	tags?: string[]
