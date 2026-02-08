@@ -12,10 +12,10 @@ interface FetchAPIOptions {
   headers?: Record<string, string>;
 }
 
-export async function fetchAPI<T = unknown>(
+export async function fetchAPI(
   url: string,
   options: FetchAPIOptions
-): Promise<T> {
+): Promise<any> {
   const { method, authToken, body, next, cache = 'default', headers = {} } = options;
 
   // Создаем базовые заголовки
@@ -59,7 +59,7 @@ export async function fetchAPI<T = unknown>(
       );
     }
 
-    return data as T;
+    return data;
   } catch (error) {
     console.error(`[fetchAPI] ${method} request to ${url} failed:`, error);
 
