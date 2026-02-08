@@ -1,5 +1,6 @@
-import { ImageProps } from './elements.types'
-import { Block, StrapiSEO } from './types'
+import { Block } from "./common.types"
+import { ImageProps } from "./image.types"
+import { StrapiSEO } from "./seo.types"
 
 export type Article = {
 	id: number

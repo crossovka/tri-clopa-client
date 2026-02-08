@@ -15,7 +15,7 @@ interface FetchAPIOptions {
 export async function fetchAPI(
   url: string,
   options: FetchAPIOptions
-): Promise<any> {
+): Promise<T> {
   const { method, authToken, body, next, cache = 'default', headers = {} } = options;
 
   // Создаем базовые заголовки
