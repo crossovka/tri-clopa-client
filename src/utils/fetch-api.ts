@@ -12,7 +12,7 @@ interface FetchAPIOptions {
   headers?: Record<string, string>;
 }
 
-export async function fetchAPI(
+export async function fetchAPI<T = unknown>(
   url: string,
   options: FetchAPIOptions
 ): Promise<T> {
@@ -59,7 +59,7 @@ export async function fetchAPI(
       );
     }
 
-    return data;
+    return data as T;
   } catch (error) {
     console.error(`[fetchAPI] ${method} request to ${url} failed:`, error);
 
