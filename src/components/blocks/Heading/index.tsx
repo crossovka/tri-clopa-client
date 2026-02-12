@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { JSX } from 'react'
 
 import { viewportSettings } from '@/utils/animations'
-import { getHeadingAnimation, headingAnimations } from './Heading.animations'
+import { getHeadingAnimation } from './Heading.animations'
 import styles from './Heading.module.scss'
 
 import type { HeadingProps } from '@/types/blocks.types'

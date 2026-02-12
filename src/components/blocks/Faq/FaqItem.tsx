@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 
 import { useLayoutEffect, useRef, useState } from 'react'
 
@@ -9,7 +9,7 @@ import styles from './Faq.module.scss'
 interface FaqItemProps {
 	title: string
 	content: string
-	variants?: any
+	variants?: Variants
 }
 
 export function FaqItem({ title, content, variants }: FaqItemProps) {
