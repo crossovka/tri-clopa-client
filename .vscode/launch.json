@@ -1,0 +1,46 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Next.js: сервер + Firefox",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "yarn dev",
+            "serverReadyAction": {
+                "pattern": "started server on .+, url: (https?://.+)",
+                "uriFormat": "%s",
+                "action": "startDebugging",
+                "name": "Next.js: Firefox"
+            },
+            "autoAttachChildProcesses": true,
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "name": "Next.js: Firefox",
+            "type": "firefox",
+            "request": "launch",
+            "reAttach": true,
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}",
+            "pathMappings": [
+                {
+                    "url": "webpack://_n_e",
+                    "path": "${workspaceFolder}"
+                }
+            ],
+            "firefoxExecutable": "C:\\Program Files\\Mozilla Firefox\\firefox.exe",
+            "profileDir": "${workspaceFolder}/.vscode/firefox-profile",
+            "keepProfileChanges": true
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Next.js: полная отладка",
+            "configurations": [
+                "Next.js: сервер + Firefox"
+            ]
+        }
+    ]
+}

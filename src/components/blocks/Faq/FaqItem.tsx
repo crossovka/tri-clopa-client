@@ -1,10 +1,18 @@
 'use client'
 
+import { motion } from 'framer-motion'
+
 import { useLayoutEffect, useRef, useState } from 'react'
 
 import styles from './Faq.module.scss'
 
-export function FaqItem({ title, content }: { title: string; content: string }) {
+interface FaqItemProps {
+	title: string
+	content: string
+	variants?: any
+}
+
+export function FaqItem({ title, content, variants }: FaqItemProps) {
 	const [isOpen, setIsOpen] = useState(false)
 	const [height, setHeight] = useState('0px')
 	const contentRef = useRef<HTMLDivElement>(null)
@@ -18,7 +26,7 @@ export function FaqItem({ title, content }: { title: string; content: string }) 
 	}, [isOpen])
 
 	return (
-		<li className={styles.item}>
+		<motion.li className={styles.item} variants={variants}>
 			<div className={`${styles.spoiler} ${isOpen ? styles.open : ''}`}>
 				<div className={styles.summary} onClick={() => setIsOpen(!isOpen)}>
 					<span className={styles.question}>{title}</span>
@@ -36,6 +44,6 @@ export function FaqItem({ title, content }: { title: string; content: string }) 
 					{content}
 				</div>
 			</div>
-		</li>
+		</motion.li>
 	)
 }

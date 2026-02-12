@@ -1,12 +1,23 @@
+'use client'
+
+import { motion } from 'framer-motion'
+
 import { Heading } from '@/components/blocks'
 
+import { viewportSettings } from '@/utils/animations'
+import { trustAnimations } from './Trust.animations'
 import styles from './Trust.module.scss'
 
 import type { TrustProps } from '@/types/blocks.types'
 
 export function Trust({ items }: Readonly<TrustProps>) {
 	return (
-		<section className={styles.trust}>
+		<motion.section 
+			className={styles.trust}
+			initial="hidden"
+			whileInView="visible"
+			viewport={viewportSettings}
+		>
 			<div className="__container">
 				<Heading
 					text="Почему нам доверяют"
@@ -15,15 +26,33 @@ export function Trust({ items }: Readonly<TrustProps>) {
 					id={0}
 					className={styles.trust__heading}
 				/>
-				<ul className={styles.list}>
+				<motion.ul 
+					className={styles.list}
+					variants={trustAnimations.container}
+				>
 					{items.map((item, index) => (
-						<li key={item.id} className={styles.item}>
-							<span className={styles.number}>{index + 1}</span>
-							<span className={styles.text}>{item.text}</span>
-						</li>
+						<motion.li 
+							key={item.id} 
+							className={styles.item}
+							variants={trustAnimations.itemAlt}
+							custom={index}
+						>
+							<motion.span 
+								className={styles.number}
+								variants={trustAnimations.number}
+							>
+								{index + 1}
+							</motion.span>
+							<motion.span 
+								className={styles.text}
+								variants={trustAnimations.text}
+							>
+								{item.text}
+							</motion.span>
+						</motion.li>
 					))}
-				</ul>
+				</motion.ul>
 			</div>
-		</section>
+		</motion.section>
 	)
 }

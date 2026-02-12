@@ -2,6 +2,7 @@
 
 import { displayPhoneNumber, sanitizePhoneNumber } from '@/utils/formatPhoneNumber'
 import clsx from 'clsx'
+import { motion } from 'framer-motion'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 
@@ -14,6 +15,8 @@ import { useEffect, useState } from 'react'
 import { PhoneIcon } from '@/components/icons/PhoneIcon'
 import { TelegramIcon } from '@/components/icons/TelegramIcon'
 import { WhatsappIcon } from '@/components/icons/WhatsappIcon'
+
+import { headerAnimations } from './Header.animations'
 
 import { ButtonProps } from '@/types/buttons.types'
 import { LinkProps } from '@/types/elements.types'
@@ -85,18 +88,25 @@ export function Header({ data, phoneNumber, whatsapp, telegramUsername, services
 	const { logo, navigation } = data
 
 	return (
-		<header className={clsx('header', { 'header--scroll': isScrolled })}>
+		<motion.header
+			className={clsx('header', { 'header--scroll': isScrolled })}
+			initial="hidden"
+			animate="visible"
+			variants={headerAnimations.container}
+		>
 			<div className="header__container">
 				<div className="header__left header-left">
-					<Link href="/" className="header-left__logo link">
-						<ReactMarkdown rehypePlugins={[rehypeRaw]}>{logo}</ReactMarkdown>
-					</Link>
+					<motion.div variants={headerAnimations.logo}>
+						<Link href="/" className="header-left__logo link">
+							<ReactMarkdown rehypePlugins={[rehypeRaw]}>{logo}</ReactMarkdown>
+						</Link>
+					</motion.div>
 
 					<ul className="header-left__nav">
-						{navigation.map((item) => {
+						{navigation.map((item, index) => {
 							const isActive = pathname === item.href
 							return (
-								<li key={item.id}>
+								<motion.li key={item.id} variants={headerAnimations.navItem(index)}>
 									<Link
 										href={item.href}
 										target={item.isExternal ? '_blank' : '_self'}
@@ -105,12 +115,12 @@ export function Header({ data, phoneNumber, whatsapp, telegramUsername, services
 									>
 										<h5>{item.text}</h5>
 									</Link>
-								</li>
+								</motion.li>
 							)
 						})}
 
 						{/* Пункт меню Услуги с выпадашкой */}
-						<li className="services-menu">
+						<motion.li className="services-menu" variants={headerAnimations.servicesMenu}>
 							<button
 								className="services-menu__btn"
 								onClick={() => setIsServicesOpen((open) => !open)}
@@ -144,60 +154,70 @@ export function Header({ data, phoneNumber, whatsapp, telegramUsername, services
 								))}
 							</ul>
 							{/* // )} */}
-						</li>
+						</motion.li>
 					</ul>
 				</div>
 
 				<div className="header__right header-right">
 					{/* WhatsApp */}
-					<a
-						className="header-right__info-item link"
-						href={`https://wa.me/${sanitizePhoneNumber(whatsapp)}`}
-						aria-label={`Написать в WhatsApp на номер ${displayPhoneNumber(whatsapp)}`}
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<div className="header-right__info-item-icon">
-							<WhatsappIcon className="icon" />
-						</div>
-					</a>
+					<motion.div variants={headerAnimations.socialItem(0)}>
+						<a
+							className="header-right__info-item link"
+							href={`https://wa.me/${sanitizePhoneNumber(whatsapp)}`}
+							aria-label={`Написать в WhatsApp на номер ${displayPhoneNumber(whatsapp)}`}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<div className="header-right__info-item-icon">
+								<WhatsappIcon className="icon" />
+							</div>
+						</a>
+					</motion.div>
 					{/* Telegram */}
-					<a
-						className="header-right__info-item link"
-						href={`https://t.me/${telegramUsername}`}
-						aria-label="Написать в Telegram"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<div className="header-right__info-item-icon">
-							<TelegramIcon className="icon" />
-						</div>
-					</a>
+					<motion.div variants={headerAnimations.socialItem(1)}>
+						<a
+							className="header-right__info-item link"
+							href={`https://t.me/${telegramUsername}`}
+							aria-label="Написать в Telegram"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<div className="header-right__info-item-icon">
+								<TelegramIcon className="icon" />
+							</div>
+						</a>
+					</motion.div>
 
 					{/* Phone */}
-					<a
-						className="header-right__info-item link"
-						href={`tel:+${sanitizePhoneNumber(phoneNumber)}`}
-						aria-label={`Позвонить по номеру ${displayPhoneNumber(phoneNumber)}`}
-						target="_blank"
-					>
-						<div className="header-right__info-item-icon">
-							<PhoneIcon className="icon" />
-						</div>
-						<span className="header-right__info-item-link">{displayPhoneNumber(phoneNumber)}</span>
-					</a>
+					<motion.div variants={headerAnimations.phone}>
+						<a
+							className="header-right__info-item link"
+							href={`tel:+${sanitizePhoneNumber(phoneNumber)}`}
+							aria-label={`Позвонить по номеру ${displayPhoneNumber(phoneNumber)}`}
+							target="_blank"
+						>
+							<div className="header-right__info-item-icon">
+								<PhoneIcon className="icon" />
+							</div>
+							<span className="header-right__info-item-link">
+								{displayPhoneNumber(phoneNumber)}
+							</span>
+						</a>
+					</motion.div>
 
-					<button
-						className="icon-menu"
-						aria-label="Toggle menu"
-						onClick={() => setIsMenuOpen((prev) => !prev)}
-					>
-						<div className="icon-menu-icon">
-							<span></span>
-						</div>
-					</button>
+					<motion.div variants={headerAnimations.menuButton}>
+						<button
+							className="icon-menu"
+							aria-label="Toggle menu"
+							onClick={() => setIsMenuOpen((prev) => !prev)}
+						>
+							<div className="icon-menu-icon">
+								<span></span>
+							</div>
+						</button>
+					</motion.div>
 				</div>
 			</div>
-		</header>
+		</motion.header>
 	)
 }

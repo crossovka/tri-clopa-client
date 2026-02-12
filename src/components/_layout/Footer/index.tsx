@@ -1,8 +1,12 @@
-import { displayPhoneNumber, sanitizePhoneNumber } from '@/utils/formatPhoneNumber'
+'use client'
 
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 
 import { PhoneIcon } from '@/components/icons/PhoneIcon'
+import { displayPhoneNumber, sanitizePhoneNumber } from '@/utils/formatPhoneNumber'
+import { viewportSettings } from '@/utils/animations'
+import { footerAnimations } from './Footer.animations'
 
 type FooterProps = {
 	phoneNumber: string
@@ -13,12 +17,18 @@ type FooterProps = {
 
 export function Footer({ phoneNumber, email, inn, ogrnip }: FooterProps) {
 	return (
-		<footer className="footer">
+		<motion.footer 
+			className="footer"
+			initial="hidden"
+			whileInView="visible"
+			viewport={viewportSettings}
+			variants={footerAnimations.container}
+		>
 			<div className="__container">
-			{/* <i className="_icon-telegram" /> */}
-			{/* <i className="_icon-whatsapp" /> */}
-
-				<div className="contact">
+				<motion.div 
+					className="contact"
+					variants={footerAnimations.contact}
+				>
 					<a
 						className="telephone"
 						href={`tel:+${sanitizePhoneNumber(phoneNumber)}`}
@@ -27,28 +37,43 @@ export function Footer({ phoneNumber, email, inn, ogrnip }: FooterProps) {
 						<PhoneIcon className="icon" />
 						<span>{displayPhoneNumber(phoneNumber)}</span>
 					</a>
-				</div>
+				</motion.div>
 
-				<div className="nameBlock">
+				<motion.div 
+					className="nameBlock"
+					variants={footerAnimations.nameBlock}
+				>
 					<h6 className="name">ИП Саленков В.В</h6>
 					<Link href="/" className="logo" aria-label="На главную страницу">
 						Три<span className="highlighted"> Клопа</span>
 					</Link>
-				</div>
+				</motion.div>
 
-				<ul className="info">
+				<motion.ul 
+					className="info"
+					variants={footerAnimations.info}
+				>
 					{inn && (
-						<li className="infoItem">
+						<motion.li 
+							className="infoItem"
+							variants={footerAnimations.infoItem}
+						>
 							<span>ИНН&nbsp;{inn}</span>
-						</li>
+						</motion.li>
 					)}
 					{ogrnip && (
-						<li className="infoItem">
+						<motion.li 
+							className="infoItem"
+							variants={footerAnimations.infoItem}
+						>
 							<span>ОГРНИП&nbsp;{ogrnip}</span>
-						</li>
+						</motion.li>
 					)}
 					{email && (
-						<li className="infoItem">
+						<motion.li 
+							className="infoItem"
+							variants={footerAnimations.infoItem}
+						>
 							<a
 								href={`mailto:${email}`}
 								className="email"
@@ -56,10 +81,10 @@ export function Footer({ phoneNumber, email, inn, ogrnip }: FooterProps) {
 							>
 								{email}
 							</a>
-						</li>
+						</motion.li>
 					)}
-				</ul>
+				</motion.ul>
 			</div>
-		</footer>
+		</motion.footer>
 	)
 }
