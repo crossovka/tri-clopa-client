@@ -1,9 +1,13 @@
+'use client'
+
 import Image from 'next/image'
+import { useState } from 'react'
 
 interface StrapiImageProps {
 	src: string
 	alt: string
 	className?: string
+	fallbackSrc?: string
 	[key: string]: string | number | boolean | undefined
 }
 
@@ -23,15 +27,40 @@ export function getStrapiMediaURL(path: string = ''): string {
 	return `${strapiUrl}${path.startsWith('/') ? '' : '/'}${path}`
 }
 
-export function StrapiImage({ src, alt, className, ...rest }: Readonly<StrapiImageProps>) {
+export function StrapiImage({ 
+	src, 
+	alt, 
+	className, 
+	fallbackSrc = '/placeholder-image.webp',
+	...rest 
+}: Readonly<StrapiImageProps>) {
 	const imageUrl = getStrapiMediaURL(src)
+	const [hasError, setHasError] = useState(false)
+	const [currentSrc, setCurrentSrc] = useState(imageUrl)
+	
 	// console.log('StrapiImage URL:', imageUrl)
-	if (!imageUrl) return null
+	if (!currentSrc) return null
 
-	return <Image src={imageUrl} alt={alt} className={className} loading="lazy" {...rest} />
+	const handleError = () => {
+		if (!hasError && fallbackSrc) {
+			setHasError(true)
+			setCurrentSrc(fallbackSrc)
+		}
+	}
+
+	return (
+		<Image 
+			src={currentSrc} 
+			alt={alt} 
+			className={className} 
+			loading="lazy" 
+			onError={handleError}
+			{...rest} 
+		/>
+	)
 }
 
-// Если нужна функция для работы с URL (где иногда приходит полный URL, иногда — относительный)
+// Если нужна функция для работы с URL (где иногда приходит полный URL, иногда — относительной)
 export function getStrapiMedia(url: string | null) {
 	if (!url) return null
 	if (url.startsWith('data:')) return url
