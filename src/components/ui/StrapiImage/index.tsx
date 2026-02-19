@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
+import { getStrapiMediaURL } from '@/utils/get-strapi-url'
 
 interface StrapiImageProps {
 	src: string
@@ -9,22 +10,6 @@ interface StrapiImageProps {
 	className?: string
 	fallbackSrc?: string
 	[key: string]: string | number | boolean | undefined
-}
-
-// Функция для корректного формирования полного URL картинки из Strapi
-export function getStrapiMediaURL(path: string = ''): string {
-	if (!path) return ''
-
-	if (path.startsWith('http://') || path.startsWith('https://')) {
-		return path
-	}
-
-	const strapiUrl = process.env.NEXT_PUBLIC_SERVER_URL
-	if (!strapiUrl) {
-		throw new Error('NEXT_PUBLIC_SERVER_URL не определён в переменных окружения')
-	}
-
-	return `${strapiUrl}${path.startsWith('/') ? '' : '/'}${path}`
 }
 
 export function StrapiImage({ 
